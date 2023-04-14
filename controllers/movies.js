@@ -4,7 +4,7 @@ const BadRequest = require('../errors/bad-request-err');
 const NotFound = require('../errors/not-found-err');
 const Forbidden = require('../errors/forbidden-err');
 
-const getCards = (req, res, next) => {
+const getMovies = (req, res, next) => {
   Movie.find(req.params)
     .then((movies) => res.status(OK).send({ data: movies }))
     .catch(next);
@@ -70,7 +70,7 @@ const deleteMovie = (req, res, next) => {
 };
 
 module.exports = {
-  getCards,
+  getMovies,
   createMovie,
   deleteMovie,
 };
