@@ -9,6 +9,7 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const { setError } = require('./middlewares/error');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const router = require('./routes');
 
 const app = express();
 
@@ -29,7 +30,7 @@ app.use(cors({
   ],
   credentials: true,
 }));
-
+app.use(router);
 app.use(errorLogger);
 app.use(errors());
 
