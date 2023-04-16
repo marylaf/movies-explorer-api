@@ -13,7 +13,7 @@ const getMovies = (req, res, next) => {
 const createMovie = (req, res, next) => {
   const {
     country, director, duration, year, description, image,
-    trailer, nameRU, nameEN, thumbnail, movieId,
+    trailerLink, nameRU, nameEN, thumbnail, movieId,
   } = req.body;
   const owner = req.user._id;
 
@@ -24,7 +24,7 @@ const createMovie = (req, res, next) => {
     year,
     description,
     image,
-    trailer,
+    trailerLink,
     nameRU,
     nameEN,
     thumbnail,
@@ -43,10 +43,10 @@ const createMovie = (req, res, next) => {
 };
 
 const deleteMovie = (req, res, next) => {
-  const { movieId } = req.params;
+  const { _id } = req.params;
   const userId = req.user._id;
 
-  Movie.findById(movieId)
+  Movie.findById(_id)
     .then((movie) => {
       if (!movie) {
         const error = new NotFound('Такого фильма не существует');
@@ -58,7 +58,7 @@ const deleteMovie = (req, res, next) => {
         const error = new Forbidden('У вас нет прав для удаления этого фильма');
         return next(error);
       }
-      return Movie.findByIdAndRemove(movieId)
+      return Movie.findByIdAndRemove(_id)
         .then((deletedMovie) => res.send({ data: deletedMovie }));
     }).catch((err) => {
       if (err.name === 'CastError') {
