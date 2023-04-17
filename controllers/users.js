@@ -79,7 +79,7 @@ const updateProfile = (req, res, next) => {
         const error = new NotFound('Такого пользователя не существует');
         return next(error);
       }
-      return res.status(OK).send({ user });
+      return res.status(OK).send(user);
     })
     .catch((err) => {
       if (err.code === 11000 || err.code === 11001) {
