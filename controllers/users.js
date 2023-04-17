@@ -5,6 +5,9 @@ const User = require('../models/user');
 const BadRequest = require('../errors/bad-request-err');
 const NotFound = require('../errors/not-found-err');
 const ConflictError = require('../errors/conflict-err');
+const {
+  badRequestMessage, conflictMessage, notFoundMessage,
+} = require('../utils/constants');
 
 const { JWT_SECRET, NODE_ENV } = process.env;
 
@@ -14,14 +17,14 @@ const getCurrentUser = (req, res, next) => {
   User.findById(userId)
     .then((user) => {
       if (!user) {
-        const error = new NotFound('Такого пользователя не существует');
+        const error = new NotFound(notFoundMessage);
         return next(error);
       }
       return res.status(OK).send({ data: user });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        const error = new BadRequest('Некорректный запрос');
+        const error = new BadRequest(badRequestMessage);
         return next(error);
       }
       return next(err);
@@ -42,11 +45,11 @@ const createUser = (req, res, next) => {
     .catch((err) => {
       // console.log('ERR', err, req.body);
       if (err.code === 11000 || err.code === 11001) {
-        const error = new ConflictError('Пользователь с таким email уже существует');
+        const error = new ConflictError(conflictMessage);
         return next(error);
       }
       if (err.name === 'ValidationError') {
-        const error = new BadRequest('Некорректный запрос');
+        const error = new BadRequest(badRequestMessage);
         return next(error);
       }
       return next(err);
@@ -76,18 +79,18 @@ const updateProfile = (req, res, next) => {
   )
     .then((user) => {
       if (!user) {
-        const error = new NotFound('Такого пользователя не существует');
+        const error = new NotFound(notFoundMessage);
         return next(error);
       }
       return res.status(OK).send(user);
     })
     .catch((err) => {
       if (err.code === 11000 || err.code === 11001) {
-        const error = new ConflictError('Пользователь с таким email уже существует');
+        const error = new ConflictError(conflictMessage);
         return next(error);
       }
       if (err.name === 'ValidationError' || err.name === 'CastError') {
-        const error = new BadRequest('Некорректный запрос');
+        const error = new BadRequest(badRequestMessage);
         return next(error);
       }
       return next(err);
