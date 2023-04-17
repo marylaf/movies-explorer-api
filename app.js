@@ -10,10 +10,9 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const { setError } = require('./middlewares/error');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const { MONGODB_URI } = require('./config');
 const limiter = require('./middlewares/limit');
 const router = require('./routes');
-
-const { MONGODB_URI } = process.env;
 
 const app = express();
 
