@@ -3,7 +3,6 @@ const jwt = require('jsonwebtoken');
 const { JWT_SECRET, NODE_ENV } = process.env;
 const Unauthorized = require('../errors/unauthorized-err');
 
-/* eslint-disable consistent-return */
 module.exports = (req, res, next) => {
   const { authorization } = req.headers;
   if (!authorization || !authorization.startsWith('Bearer ')) {
@@ -23,5 +22,5 @@ module.exports = (req, res, next) => {
   }
   req.user = payload;
 
-  next();
+  return next();
 };
