@@ -1,3 +1,5 @@
+const express = require('express');
+const cors = require('cors');
 const router = require('express').Router();
 const { createUser, login } = require('../controllers/users');
 const auth = require('../middlewares/auth');
@@ -6,6 +8,10 @@ const userRouter = require('./users');
 const movieRouter = require('./movies');
 const NotFound = require('../errors/not-found-err');
 const { notFoundMessage } = require('../utils/constants');
+
+const app = express();
+
+app.use(cors());
 
 router.post('/signup', validateCreateUser, createUser);
 
