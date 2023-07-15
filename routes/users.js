@@ -3,8 +3,8 @@ const { validateUpdateProfile } = require('../middlewares/validation');
 const { updateProfile } = require('../controllers/users');
 const { getCurrentUser } = require('../controllers/users');
 
-userRouter.get('/users/me', getCurrentUser);
+userRouter.get('/', getCurrentUser);
 
-userRouter.patch('/users/me', validateUpdateProfile, updateProfile);
+userRouter.patch('/', validateUpdateProfile, updateProfile);
 
 module.exports = userRouter; // экспортировали роутер

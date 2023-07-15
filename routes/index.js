@@ -1,4 +1,5 @@
-const router = require('express').Router();
+const express = require('express');
+const cors = require('cors');
 const { createUser, login } = require('../controllers/users');
 const auth = require('../middlewares/auth');
 const { validateCreateUser, validateLogin } = require('../middlewares/validation');
@@ -7,17 +8,21 @@ const movieRouter = require('./movies');
 const NotFound = require('../errors/not-found-err');
 const { notFoundMessage } = require('../utils/constants');
 
-router.post('/signup', validateCreateUser, createUser);
+const app = express();
 
-router.post('/signin', validateLogin, login);
+app.use(cors());
 
-router.use('/', auth, userRouter);
-router.use('/', auth, movieRouter);
+app.post('/signup', validateCreateUser, createUser);
 
-router.use(auth);
-router.use((req, res, next) => {
+app.post('/signin', validateLogin, login);
+
+app.use('/users/me', auth, userRouter);
+app.use('/movies', auth, movieRouter);
+
+app.use(auth);
+app.use((req, res, next) => {
   const error = new NotFound(notFoundMessage);
   return next(error);
 });
 
-module.exports = router;
+module.exports = app;
