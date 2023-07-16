@@ -10,16 +10,11 @@ const { notFoundMessage } = require('../utils/constants');
 
 const app = express();
 
+app.use(cors());
+
 app.post('/signup', validateCreateUser, createUser);
 
 app.post('/signin', validateLogin, login);
-
-app.use(cors({
-  origin: 'http://localhost:3000',
-  methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true,
-}));
 
 app.use('/users/me', auth, userRouter);
 app.use('/movies', auth, movieRouter);
