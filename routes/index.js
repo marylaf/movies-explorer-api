@@ -10,7 +10,12 @@ const { notFoundMessage } = require('../utils/constants');
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3000',
+  methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+}));
 
 app.post('/signup', validateCreateUser, createUser);
 
