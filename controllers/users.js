@@ -46,13 +46,15 @@ const createUser = (req, res, next) => {
       // console.log('ERR', err, req.body);
       if (err.code === 11000 || err.code === 11001) {
         const error = new ConflictError(conflictMessage);
-        return next(error);
+        next(error);
+        return;
       }
       if (err.name === 'ValidationError') {
         const error = new BadRequest(badRequestMessage);
-        return next(error);
+        next(error);
+        return;
       }
-      return next(err);
+      next(err);
     });
 };
 

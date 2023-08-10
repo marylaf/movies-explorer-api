@@ -31,7 +31,7 @@ const movieSchema = new mongoose.Schema(
         validator(value) {
           return validator.isURL(value);
         },
-        message: 'Поле "trailerLink" должно быть валидной ссылкой',
+        message: 'Поле "image" должно быть валидной ссылкой',
       },
     },
     trailerLink: {
@@ -71,7 +71,6 @@ const movieSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-
   },
   { versionKey: false },
 );

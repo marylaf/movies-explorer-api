@@ -19,6 +19,7 @@ const createMovie = (req, res, next) => {
     trailerLink, nameRU, nameEN, thumbnail, movieId,
   } = req.body;
   const owner = req.user._id;
+  console.log('РАБОТАЕТ', req.body);
 
   Movie.create({
     country,
@@ -34,7 +35,9 @@ const createMovie = (req, res, next) => {
     movieId,
     owner,
   })
-    .then((movie) => res.status(CreateSmt).send({ data: movie }))
+    .then((movie) => {
+      res.status(CreateSmt).send({ data: movie });
+    })
     .catch((err) => {
       // console.log('ERR', err, req.body);
       if (err.name === 'ValidationError') {

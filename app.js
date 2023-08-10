@@ -11,7 +11,7 @@ const cookieParser = require('cookie-parser');
 const { setError } = require('./middlewares/error');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { MONGODB_URI } = require('./config');
-const limiter = require('./middlewares/limit');
+// const limiter = require('./middlewares/limit');
 const { createUser, login } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 const { validateCreateUser, validateLogin } = require('./middlewares/validation');
@@ -29,16 +29,19 @@ mongoose.connect(MONGODB_URI, {
 
 const { PORT = 3000 } = process.env;
 
+const myLogger = function (req, res, next) {
+  next();
+};
+
+app.use(myLogger);
+
 app.use(cors());
 app.use(requestLogger);
 app.use(express.json());
 app.use(helmet());
 app.use(cookieParser());
-app.use(limiter);
+// app.use(limiter);
 app.use(errorLogger);
-app.use(errors());
-
-app.use(setError);
 
 app.post('/signup', validateCreateUser, createUser);
 
@@ -57,5 +60,8 @@ app.use((req, res, next) => {
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
 });
+
+app.use(errors());
+app.use(setError);
 
 module.exports = app;

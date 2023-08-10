@@ -1,4 +1,4 @@
-const setError = (err, req, res, next) => {
+function setError(err, req, res, next) {
 // если у ошибки нет статуса, выставляем 500
   const { statusCode = 500, message } = err;
 
@@ -9,7 +9,6 @@ const setError = (err, req, res, next) => {
         ? 'Внутренняя ошибка сервера'
         : message,
     });
-  next();
 };
 
 module.exports = { setError };
