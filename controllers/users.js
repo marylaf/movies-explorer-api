@@ -40,7 +40,10 @@ const createUser = (req, res, next) => {
     name, email, password: hash,
   }))
     // возвращаем записанные в базу данные пользователю
-    .then((user) => res.status(OK).send({ data: user }))
+    .then((user) => {
+      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-key', { expiresIn: '7d' });
+      return res.status(OK).send({ data: user, token });
+    })
     // если данные не записались, вернём ошибку
     .catch((err) => {
       // console.log('ERR', err, req.body);
